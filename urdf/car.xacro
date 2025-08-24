@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<robot name="Robo_car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="sensor.xacro"/>
+  <xacro:include filename="plugin.xacro"/>
+  
+  <material name="orange">
+    <color rgba="1 0.647 0 1" />
+  </material>
+  <material name="white">
+    <color rgba="0 0 1 1" />
+  </material>
+  <material name="brown">
+    <color rgba="0.647 0.165 0.165 1" />
+  </material>
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1" />
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1" />
+  </material>
+
+  <link name="base_footprint" />
+  <link name="top_of_box" />
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${0.05 * scale}" rpy="0 0 0" />
+      <geometry>
+        <box size="${0.35 * scale} ${0.3 * scale} ${0.1 * scale}"/>
+      </geometry>
+      <material name="orange" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${0.05 * scale}" rpy="0 0 0" />
+      <geometry>
+        <box size="${0.35 * scale} ${0.3 * scale} ${0.1 * scale}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="0.0467" ixy="0" ixz="0" iyy="0.05521" izz="0.08854" iyz="0" />
+    </inertial>
+  </link>
+
+  <link name="right_wheel_link">
+    <visual>
+      <geometry>
+        <cylinder radius="${0.05 * scale}" length="${0.05 * scale}" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${0.05 * scale}" length="${0.05 * scale}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="0.0083" ixy="0" ixz="0" iyy="0.0083" izz="0.00125" iyz="0" />
+    </inertial>
+  </link>
+
+  <link name="left_wheel_link">
+    <visual>
+      <geometry>
+        <cylinder radius="${0.05 * scale}" length="${0.05 * scale}" />
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${0.05 * scale}" length="${0.05 * scale}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="0.0083" ixy="0" ixz="0" iyy="0.0083" izz="0.00125" iyz="0" />
+    </inertial>
+  </link>
+
+  <link name="castor_wheel">
+    <visual>
+      <geometry>
+        <sphere radius="${0.025 * scale}" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="${0.025 * scale}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="0.00041" ixy="0" ixz="0" iyy="0.00041" izz="0.00014" iyz="0" />
+    </inertial>
+  </link>
+
+  <link name="roof_link">
+    <visual>
+      <origin xyz="0 0 ${0.04 * scale}" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="${0.15 * scale}" length="${0.04 * scale}" />
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${0.04 * scale}" rpy="0 0 0" />
+      <geometry>
+        <box size="${0.17 * scale} ${0.17 * scale} ${0.08 * scale}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="0.00723" ixy="0" ixz="0" iyy="0.00468" izz="0.00468" iyz="0" />
+    </inertial>
+  </link>
+
+  <link name="pillar_1_link">
+    <visual>
+      <origin xyz="0 0 ${0.1 * scale}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${0.015 * scale}" length="${0.23 * scale}"/>
+      </geometry>
+      <material name="brown" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${0.1 * scale}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${0.015 * scale}" length="${0.23 * scale}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="0.00336" ixy="0" ixz="0" iyy="0.00336" izz="0.000005" iyz="0" />
+    </inertial>
+  </link>
+
+  <link name="pillar_2_link">
+    <visual>
+      <origin xyz="0 0 ${0.1 * scale}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${0.015 * scale}" length="${0.25 * scale}"/>
+      </geometry>
+      <material name="brown" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${0.1 * scale}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${0.015 * scale}" length="${0.23 * scale}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="0.00336" ixy="0" ixz="0" iyy="0.00336" izz="0.000005" iyz="0" />
+    </inertial>
+  </link>
+
+  <joint name="base_TopOfBox_joint" type="fixed">  
+    <parent link="base_link"/>
+    <child link="top_of_box"/>
+    <origin xyz="0 0 ${0.1 * scale}" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="castor_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="castor_wheel"/>
+    <origin xyz="${-0.12 * scale} 0 ${-0.025 * scale}" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="baseLink_footPrint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${0.05 * scale}" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="base_link" />
+    <child link="right_wheel_link" />
+    <origin xyz="${0.1 * scale} ${-0.155 * scale} 0" rpy="1.57 0 0"/>
+    <axis xyz="0 0 1" />
+  </joint>  
+
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="base_link" />
+    <child link="left_wheel_link" />
+    <origin xyz="${0.1 * scale} ${0.155 * scale} 0" rpy="1.57 0 0" />
+    <axis xyz="0 0 1" />
+  </joint> 
+
+  <joint name="pillar_1_joint" type="fixed">
+    <parent link="top_of_box"/>
+    <child link="pillar_1_link"/>
+    <origin xyz="${0.0875 * scale} ${0.135 * scale} 0" rpy="0 0 0"/>
+  </joint> 
+
+  <joint name="pillar_2_joint" type="fixed">
+    <parent link="top_of_box"/>
+    <child link="pillar_2_link"/>
+    <origin xyz="${0.0875 * scale} ${-0.135 * scale} 0" rpy="0 0 0"/>
+  </joint> 
+
+  <joint name="roof_joint" type="fixed">
+    <parent link="top_of_box"/>
+    <child link="roof_link"/>
+    <origin xyz="${0.07 * scale} 0 ${0.2 * scale}" rpy="0 0 0"/>
+  </joint>
+
+</robot>

@@ -1,0 +1,83 @@
+<launch>
+     <let name="urdf_path"
+          value="$(find-pkg-share hpr)/urdf/car.xacro"/>
+     <let name="rviz_config_path"
+          value="$(find-pkg-share hpr)/rviz/final2.rviz"/>
+     <let name="gz_config_path"
+          value="$(find-pkg-share hpr)/config/ros_gz_bridge.yaml"/>
+     
+     <let name="slam_config_path"
+          value="$(find-pkg-share hpr)/config/slam.yaml"/>
+     <let name="nav2_params_path"
+          value="$(find-pkg-share hpr)/config/my_nav2_params.yaml"/>
+     <let name="map_path" 
+          value="$(find-pkg-share hpr)/maps/hp1.yaml"/>
+
+     <node pkg="robot_state_publisher" exec="robot_state_publisher">
+          <param name="robot_description"
+                 value="$(command 'xacro $(var urdf_path)')"/>
+     </node>
+
+
+     <include file="$(find-pkg-share ros_gz_sim)/launch/gz_sim.launch.py">
+        <arg name="gz_args" value="$(find-pkg-share hpr)/world/try13.sdf -r"/>
+    </include>
+
+     <node pkg="ros_gz_sim" exec="create" args="-topic robot_description"/>
+
+     <node pkg="ros_gz_bridge" exec="parameter_bridge">
+        <param name="config_file" value="$(var gz_config_path)"/>
+    </node>
+
+     <node pkg="robot_localization" exec="ekf_node" name="ekf_node" output="screen">
+          <param from="/home/sohrab/hp_robotics/src/hpr/config/ekf.yaml"/>
+          <param name="use_sim_time" value="true"/>
+     </node>
+
+     <include file="$(find-pkg-share nav2_bringup)/launch/navigation_launch.py">
+          <arg name="use_sim_time" value="true"/>
+          <arg name="map" value="$(var map_path)"/>
+     </include>
+
+
+     <node pkg="tf2_ros" exec="static_transform_publisher" name="static_tf_pub_base">
+          <param name="use_sim_time" value="true"/>
+          <remap from="frame_id" to="Robo_car/base_footprint"/>
+          <remap from="child_frame_id" to="base_footprint"/>
+          <param name="x" value="0"/>
+          <param name="y" value="0"/>
+          <param name="z" value="0"/>
+          <param name="roll" value="0"/>
+          <param name="pitch" value="0"/>
+          <param name="yaw" value="0"/>
+     </node>
+
+
+    
+
+<include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="map" value="$(var map_path)"/>
+</include>
+
+
+
+
+
+
+     <!-- <node pkg="slam_toolbox" exec="async_slam_toolbox_node" name="slam_toolbox" output="screen">
+          <param from="$(var slam_config_path)"/>
+          <param name="use_sim_time" value="true"/>
+     </node> -->
+     
+
+     <!-- <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui"/> -->
+
+     <node pkg="rviz2" exec="rviz2" output="screen"
+      args="-d $(var rviz_config_path)">
+    <param name="use_sim_time" value="true"/>
+</node>
+
+
+     <!-- <node pkg="rviz2" exec="rviz2" output="screen" args="-d $(var rviz_config_path)"/> -->
+</launch>
