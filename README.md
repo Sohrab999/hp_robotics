@@ -1,4 +1,4 @@
-cat << 'EOF' > ~/hp_robotics/README.md
+
 # 🤖 HP Robotics
 
 A ROS 2 simulation project featuring a **differential drive robot** in Gazebo, fully integrated with URDF, TF2, RViz, and Nav2 workflows. Designed for learning robot modeling, simulation, and autonomous navigation in a modular way.
